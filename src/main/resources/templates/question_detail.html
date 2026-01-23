@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" layout:decorate="~{layout}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- sbb CSS -->
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
   <title>상세페이지</title>
 </head>
-  <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-  <div class="container my-3">
+<body>
+  <div layout:fragment="content" class="container my-3">
   <!-- 질문 -->
   <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
   <div class="card my-3">
