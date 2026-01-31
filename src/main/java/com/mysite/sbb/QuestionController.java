@@ -1,8 +1,10 @@
 package com.mysite.sbb;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import com.mysite.sbb.answer.AnswerForm;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionForm;
 import com.mysite.sbb.question.QuestionService;
+import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class QuestionController {
 
   private final QuestionService questionService;
+  private final UserService userService;
 
   @GetMapping("/list")
   public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -45,16 +50,19 @@ public class QuestionController {
   }
 
   @GetMapping("/create")
+  @PreAuthorize("isAuthenticated()")
   public String  questionCreate(QuestionForm questionForm) {
       return "question_form";
   }
 
   @PostMapping("/create")
-  public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+  @PreAuthorize("isAuthenticated()")
+  public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
     if(bindingResult.hasErrors()){
       return "question_form";
     }
-    this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+    SiteUser siteUser = this.userService.getUser(principal.getName());
+    this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
       
     return "redirect:/question/list";
   }
