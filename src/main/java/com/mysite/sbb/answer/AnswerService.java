@@ -45,4 +45,10 @@ public class AnswerService {
     this.answerRepository.delete(answer);
   }
 
+  //답변 추천 저장
+  public void vote(Answer answer, SiteUser siteUser) {
+    answer.getVoter().add(siteUser);
+    this.answerRepository.save(answer);
+  }
+
 }
