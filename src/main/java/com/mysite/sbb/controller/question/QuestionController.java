@@ -1,4 +1,4 @@
-package com.mysite.sbb;
+package com.mysite.sbb.controller.question;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,6 +20,7 @@ import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionForm;
 import com.mysite.sbb.question.QuestionService;
 import com.mysite.sbb.user.SiteUser;
+import com.mysite.sbb.user.UserRole;
 import com.mysite.sbb.user.UserService;
 
 import jakarta.validation.Valid;
@@ -64,7 +65,7 @@ public class QuestionController {
   }
 
   @PostMapping("/create")
-  @PreAuthorize("isAuthenticated()")
+  @PreAuthorize("hasRole('ADMIN')")
   public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
     if(bindingResult.hasErrors()){
       return "question_form";

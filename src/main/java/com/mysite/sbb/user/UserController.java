@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -58,13 +56,6 @@ public class UserController {
   @GetMapping("/login")
   public String login() {
       return "login_form";
-  }
-  
-  @PostMapping("/login")
-  public String login(String username, String password ) {
-      //TODO: process POST request
-      
-      return "entity";
   }
   
   

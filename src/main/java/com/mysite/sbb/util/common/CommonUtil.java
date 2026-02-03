@@ -1,4 +1,4 @@
-package com.mysite.sbb;
+package com.mysite.sbb.util.common;
 
 import org.springframework.stereotype.Component;
 import org.commonmark.parser.Parser;
