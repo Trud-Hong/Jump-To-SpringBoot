@@ -23,6 +23,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
   Page<Question> findAll(Specification<Question> spec, Pageable pageable);
 
+  //question 테이플을 기준으로 answer,site_user 테이블을 outer join하여 문자열 검색, 합집합 검색 <-> inner join = 교집합 검색
   @Query("select "
           + "distinct q "
           + "from Question q "
