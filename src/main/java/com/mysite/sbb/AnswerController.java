@@ -24,8 +24,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -40,6 +38,7 @@ public class AnswerController {
   private final AnswerService answerService;
   private final UserService userService;
 
+  //답변 생성
   @PostMapping("/create/{id}")
   @PreAuthorize("isAuthenticated()")
   public String createAnswer(
@@ -60,6 +59,7 @@ public class AnswerController {
     return String.format("redirect:/question/detail/%s", id);
   }
 
+  //답변 수정
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/modify/{id}")
   public String answerModify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
@@ -90,6 +90,7 @@ public class AnswerController {
       return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
   }
 
+  //답변 삭제
   @PreAuthorize("isAuthenticated()")
   @GetMapping("/delete/{id}")
   public String delete(Principal principal, @PathVariable("id") Integer id) {
@@ -101,8 +102,15 @@ public class AnswerController {
     return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
   }
   
-  
-
+  //답변 추천
+  @PreAuthorize("isAuthenticated()")
+  @GetMapping("/vote/{id}")
+  public String vote(Principal principal, @PathVariable("id") Integer id) {
+    Answer answer = this.answerService.getAnswer(id);
+    SiteUser siteUser = this.userService.getUser(principal.getName());
+    this.answerService.vote(answer, siteUser);
+    return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+  }
 
 
 
